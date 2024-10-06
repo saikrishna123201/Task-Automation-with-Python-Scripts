@@ -1,0 +1,73 @@
+
+1. Automating File Management Tasks
+import os
+import shutil
+def organize_files_by_extension(folder_path):
+    for filename in os.listdir(folder_path):
+        file_extension = filename.split('.')[-1]
+        new_folder = os.path.join(folder_path, file_extension)
+
+        if not os.path.exists(new_folder):
+            os.makedirs(new_folder)
+
+        old_file = os.path.join(folder_path, filename)
+        new_file = os.path.join(new_folder, filename)
+
+        shutil.move(old_file, new_file)
+
+folder = '/path/to/your/folder'
+organize_files_by_extension(folder)
+
+2.Automating Email Sending
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+def send_email(sender_email, receiver_email, subject, message, password):
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(message, 'plain'))
+
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, password)
+        text = msg.as_string()
+        server.sendmail(sender_email, receiver_email, text)
+        print("Email sent successfully!")
+        server.quit()
+    except Exception as e:
+        print(f"Error: {e}")
+
+sender = 'your_email@gmail.com'
+receiver = 'recipient_email@gmail.com'
+subject = 'Automated Email'
+message = 'This is a test email sent from a Python script.'
+password = 'your_email_password'
+
+send_email(sender, receiver, subject, message, password)
+
+
+3. Web Scraping
+
+
+import requests
+from bs4 import BeautifulSoup
+
+# Example: Scrape the titles of articles from a website
+def scrape_website(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    titles = soup.find_all('h2', class_='entry-title')
+    for title in titles:
+        print(title.text)
+
+website_url = 'https://example-blog.com'
+scrape_website(website_url)
+
+
